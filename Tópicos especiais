@@ -1,0 +1,49 @@
+#exercicio 1 
+
+valor_x = float(input("Informe o valor X: "))
+valor_y = float(input("Informe o valor Y: "))
+
+if valor_x > valor_y:
+    print(f"Valor {valor_x} é maior que valor {valor_y}")
+elif valor_x < valor_y:
+    print(f"Valor {valor_x} é menor que valor {valor_y}")
+else:
+    print("Os valores de X e Y são iguais")
+
+#exercicio 2
+
+texto_x = input("informe o texto x :")
+texto_y = input("informe o texto y :")
+
+if texto_x == texto_y :
+    print("os valores informados são iguais ")
+else :
+    print(f"Valor {texto_x} é diferente do valor {texto_y}")
+
+#exercicio 3
+
+for i in range(1, 11):
+    print(i)
+
+#exercicio 4
+
+i = 1
+while i <= 10:
+    print(i)
+    i += 1
+
+#exercicio 5
+
+dados = {'a': 'primeiro', 'b': 'segundo', 'c': 'terceiro', 'd': 'quarto', 'e': 'quinto'}
+for indice, chave in enumerate(dados):
+    valor = dados[chave]
+    print(f"Índice: {indice}, Chave: {chave}, Valor: {valor}")
+
+#exercicio 6
+
+lista = [9, 25, 5, 6, 5815, 985, 1, 22, 2, 7, 3
+valores_desejados = [1, 2, 5, 6]
+for item in lista:
+    if item in valores_desejados:
+        print(item)
+
