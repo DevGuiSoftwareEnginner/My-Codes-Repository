@@ -1,0 +1,267 @@
+# #PROVA DE PYTHON 
+# 1. Cálculo de juros simples. Defina variáveis para o valor inicial, a taxa de juros anual (em
+# decimal) e o tempo (em anos). Calcule o valor final de um investimento usando a fórmula
+# de juros simples: Valor Final = Valor Inicial * (1 + Taxa * Tempo) . Certifique-se
+# de que os valores informados sejam positivos e que a taxa de juros seja decimal (float,
+# algo como 0.05 ao ano). Casos todos valores sejam válidos imprima o resultado do juros,
+# caso algum valor não atenda os requisitos informe o que está errado.
+# Função para calcular o valor final do investimento com juros simples
+def calcular_juros_simples(valor_inicial, taxa, tempo):
+    """
+    Calcula o valor final do investimento com juros simples.
+
+    Args:
+        valor_inicial (float): Valor inicial do investimento.
+        taxa (float): Taxa de juros anual (em decimal, por exemplo 0.05 para 5%).
+        tempo (float): Tempo do investimento em anos.
+
+    Returns:
+        float: Valor final do investimento.
+    """
+    return valor_inicial * (1 + taxa * tempo)
+
+# Função para validar e calcular
+def main():
+    try:
+        # Definindo as variáveis
+        valor_inicial = float(input("Digite o valor inicial do investimento: R$ "))
+        taxa = float(input("Digite a taxa de juros anual (em decimal, por exemplo 0.05 para 5%): "))
+        tempo = float(input("Digite o tempo do investimento em anos: "))
+
+        # Verificando se os valores são positivos
+        if valor_inicial <= 0:
+            raise ValueError("O valor inicial deve ser positivo.")
+        if taxa <= 0:
+            raise ValueError("A taxa de juros deve ser positiva.")
+        if tempo <= 0:
+            raise ValueError("O tempo deve ser positivo.")
+
+        # Calculando o valor final
+        valor_final = calcular_juros_simples(valor_inicial, taxa, tempo)
+        juros = valor_final - valor_inicial
+
+        # Imprimindo os resultados
+        print(f"O valor final do investimento é: R$ {valor_final:.2f}")
+        print(f"O valor dos juros é: R$ {juros:.2f}")
+
+    except ValueError as e:
+        print(f"Erro: {e}")
+
+# Chamando a função principal
+if __name__ == "__main__":
+    main()
+# 2. Receba uma string via input , remova espaços e converta para minúsculas. Verifique se
+# a string é um palíndromo (ou seja, se a palavra é a mesma quando lida de trás para
+# frente). Exiba uma mensagem indicando se é ou não.
+def verifica_palindromo():
+    palavra = input("Informe uma palavra: ").replace(" ", "").lower()
+    if palavra == palavra[::-1]:
+        print("A palavra é um palíndromo")
+    else:
+        print("A palavra não é um palíndromo")
+
+verifica_palindromo()
+# 3. Dada a frase A aranha arranha a rã. A rã arranha a aranha. Nem a aranha arranha
+# a rã. Nem a rã arranha a aranha. , conte quantas vezes cada palavra aparece.
+# Armazene os resultados em um dicionário e exiba-o. Deve fazer um saneamento dos
+# dados, considerando apenas palavras/letras, também deve ser considerado maiúsculas e
+# minúsculas iguais.
+frase = "A aranha arranha a rã. A rã arranha a aranha. Nem a aranha arranha a rã. Nem a rã arranha a aranha."
+palavras = frase.lower().split()
+contagem = {}
+
+for palavra in palavras:
+    palavra = palavra.strip(".,;:")
+    if palavra not in contagem:
+        contagem[palavra] = 1
+    else:
+        contagem[palavra] += 1
+
+print(contagem)
+# 4. Dado a lista de idades: [4, 13, 18, 65, 30, 8, 17, 74] . Classifique cada idade em
+# 'criança', 'adolescente', 'adulto' ou 'idoso'. Armazene os resultados em um dicionário e
+# exiba-o. Onde até 12 anos é criança, entre 13 e 17 adolescente, entre 18 e 64 adulto e
+# acima de 64 idoso.
+idades = [4, 13, 18, 65, 30, 8, 17, 74]
+classificacao = {}
+
+for idade in idades:
+    if idade <= 12:
+        categoria = "criança"
+    elif 13 <= idade <= 17:
+        categoria = "adolescente"
+    elif 18 <= idade <= 64:
+        categoria = "adulto"
+    else:
+        categoria = "idoso"
+    if categoria not in classificacao:
+        classificacao[categoria] = [idade]
+    else:
+        classificacao[categoria].append(idade)
+
+print(classificacao)
+# 5. Receba uma temperatura em Celsius via input e converta para Fahrenheit usando a
+# fórmula F = C * 9/5 + 32 . Exiba o resultado.
+celsius = float(input("Informe a temperatura em Celsius: "))
+fahrenheit = celsius * 9/5 + 32
+print(f"A temperatura em Fahrenheit é: {fahrenheit:.2f}")
+# 6. Dada a string Python é incrível! , conte o número de vogais. Exiba o total.
+palavra = "Python é incrível!"
+vogais = "aeiouéí"
+contagem = 0
+
+for letra in palavra.lower():
+    if letra in vogais:
+        contagem += 1
+
+print(f"A palavra tem {contagem} vogais")
+# 7. Simule o lançamento de dois dados e exiba a soma dos valores obtidos e o número da
+# tentativa a cada iteração. Repita até que a soma dos dados seja igual a 7 ou 11. Mostre
+# quantas tentativas foram necessárias para chegar a 7 ou 11 ao final do processo. Para
+# gerar o número do dado a cada iteração utilize random.randint(1, 6) , irá gerar um
+# número aleatório entre 1 e 6, importe o seguinte pacote import random para utilizar a
+# classe random.
+import random
+
+tentativas = 0
+while True:
+    dado1 = random.randint(1, 6)
+    dado2 = random.randint(1, 6)
+    soma = dado1 + dado2
+    tentativas += 1
+    print(f"Tentativa {tentativas}: {dado1} + {dado2} = {soma}")
+    if soma == 7 or soma == 11:
+        break
+
+print(f"Conseguiu em {tentativas} tentativas!")
+# 8. Dado o dicionário valores = {"a": 10, "b": 20, "c": 30} , some todos os valores e
+# exiba o total.
+valores = {"a": 10, "b": 20, "c": 30}
+soma = sum(valores.values())
+print(f"A soma dos valores é: {soma}")
+# 9. Dada a string Python é poderoso! , conte o número de consoantes presentes. Exiba o
+# total.
+palavra = "Python é poderoso!"
+consoantes = "bcdfghjklmnpqrstvwxyz"
+contagem = 0
+
+for letra in palavra.lower():
+    if letra in consoantes:
+        contagem += 1
+
+print(f"A palavra tem {contagem} consoantes")
+# 10. Dada a lista de salários [1200, 2500, 4000, 7500, 10000] , agrupe-os em 'baixo' (<=
+# 2000), 'médio' (2001 - 5000) e 'alto' (> 5000). Armazene os resultados em um dicionário e
+# exiba-o.
+salarios = [1200, 2500, 4000, 7500, 10000]
+agrupamento = {"baixo": [], "médio": [], "alto": []}
+contagem = {"baixo": 0, "médio": 0, "alto": 0}
+
+for salario in salarios:
+    if salario <= 2000:
+        agrupamento["baixo"].append(salario)
+        contagem["baixo"] += 1
+    elif 2001 <= salario <= 5000:
+        agrupamento["médio"].append(salario)
+        contagem["médio"] += 1
+    else:
+        agrupamento["alto"].append(salario)
+        contagem["alto"] += 1
+
+print("Agrupamento:", agrupamento)
+print("Contagem:", contagem)
+# 11. Dada a frase frase = "Ana gosta de estudar e aprender novas coisas" , conte
+# quantas palavras começam com uma vogal. Exiba o total.
+frase = "Ana gosta de estudar e aprender novas coisas"
+palavras = frase.split()
+vogais = "aeiou"
+contagem = 0
+
+for palavra in palavras:
+    if palavra[0].lower() in vogais:
+        contagem += 1
+
+print(f"A frase tem {contagem} palavras que começam com vogal")
+# 12. Dado o dicionário de estudantes e suas notas, classifique cada estudante em uma das
+# categorias de A a F, conforme a tabela abaixo:
+# A: 90-100
+# B: 80-89
+# C: 70-79
+# D: 60-69
+# E: 50-59
+# F: abaixo de 50
+
+# Deve ser impresso a lista das notas classificadas e qual usuário possui essa
+# classificação de nota.
+
+# estudantes = {
+# "Alice": 85,
+# "Bob": 92,
+# "Charlie": 78,
+# "Diana": 88,
+# "Edward": 67,
+# "Fiona": 74,
+# "George": 53,
+# "Hannah": 59,
+# "Irene": 48,
+# "Jack": 95,
+# "Kelly": 84,
+# "Leo": 72,
+# "Mia": 64,
+# "Noah": 58,
+# "Olivia": 45
+# }
+
+# notas = {
+# 'A': [],
+# 'B': [],
+# 'C': [],
+# 'D': [],
+# 'E': [],
+# 'F': []
+# }
+
+# # resultado esperado: {'A': ['Bob', 'Jack'], 'B': ['Alice', 'Diana', 'Kelly'],
+
+estudantes = {
+    "Alice": 85,
+    "Bob": 92,
+    "Charlie": 78,
+    "Diana": 88,
+    "Edward": 67,
+    "Fiona": 74,
+    "George": 53,
+    "Hannah": 59,
+    "Irene": 48,
+    "Jack": 95,
+    "Kelly": 84,
+    "Leo": 72,
+    "Mia": 64,
+    "Noah": 58,
+    "Olivia": 45
+}
+
+notas = {
+    'A': [],
+    'B': [],
+    'C': [],
+    'D': [],
+    'E': [],
+    'F': []
+}
+
+for estudante, nota in estudantes.items():
+    if nota >= 90:
+        notas['A'].append(estudante)
+    elif nota >= 80:
+        notas['B'].append(estudante)
+    elif nota >= 70:
+        notas['C'].append(estudante)
+    elif nota >= 60:
+        notas['D'].append(estudante)
+    elif nota >= 50:
+        notas['E'].append(estudante)
+    else:
+        notas['F'].append(estudante)
+
+print(notas)
