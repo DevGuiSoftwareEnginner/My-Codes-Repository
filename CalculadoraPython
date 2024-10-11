@@ -1,0 +1,127 @@
+import re
+import tkinter as tk
+from tkinter import ttk
+
+def is_valid_expression(expression):
+    # Expressão regular para validar a expressão matemática
+    pattern = re.compile(r'^[\d+\-*/().\s]+$')
+    return pattern.match(expression) is not None
+
+def calculate(expression):
+    try:
+        # Avaliar a expressão com segurança
+        return eval(expression, {"__builtins__": None}, {})
+    except ZeroDivisionError:
+        return "Erro: Divisão por zero."
+    except:
+        return "Err"
+
+class CalculatorGUI:
+    def __init__(self, master):
+        self.master = master
+        master.title("Calculadora Elegante")
+        master.configure(bg='#f0f0f0')
+        master.geometry("300x400")
+        
+        # Definir tamanho mínimo da janela
+        master.minsize(300, 400)
+
+        style = ttk.Style()
+        style.theme_use('clam')
+
+        # Criar o campo de entrada
+        self.display = ttk.Entry(master, width=20, justify="right", font=('Arial', 18))
+        self.display.grid(row=0, column=0, columnspan=4, padx=10, pady=10, sticky="nsew")
+        self.display.bind('<Return>', self.calculate_and_update_ui)  # Adicionar binding para a tecla Enter
+        self.display.bind('<Key>', self.key_pressed)  # Adicionar binding para todas as teclas
+        self.display.bind('<BackSpace>', self.backspace)  # Adicionar binding para a tecla Backspace
+
+        # Definir os botões da calculadora
+        self.buttons = [
+            '7', '8', '9', '/',
+            '4', '5', '6', '*',
+            '1', '2', '3', '-',
+            '0', '.', '=', '+'
+        ]
+
+        # Configurar estilo dos botões
+        style.configure('TButton', font=('Arial', 14), padding=10)
+        style.map('TButton', background=[('active', '#4CAF50')])
+
+        # Criar e posicionar os botões
+        self.button_frame = ttk.Frame(master)
+        self.button_frame.grid(row=1, column=0, columnspan=4, padx=10, pady=10, sticky="nsew")
+        
+        
+        # Adicionar botão de limpar
+        ttk.Button(self.button_frame, text="C", command=self.clear, style='TButton').grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+
+        row = 1 # Começa do 1 pois o botão de limpar já foi adicionado
+        col = 0
+        for button in self.buttons:
+            cmd = lambda x=button: self.click(x)
+            ttk.Button(self.button_frame, text=button, command=cmd, style='TButton').grid(row=row, column=col, padx=5, pady=5, sticky="nsew")
+            col += 1
+            if col > 3:
+                col = 0
+                row += 1
+
+
+        # Configurar expansão de linhas e colunas
+        for i in range(5):
+            master.grid_rowconfigure(i, weight=1)
+            master.grid_columnconfigure(i, weight=1)
+        for i in range(5):
+            self.button_frame.grid_rowconfigure(i, weight=1)
+            self.button_frame.grid_columnconfigure(i, weight=1)
+
+        # Focar no campo de entrada quando a aplicação iniciar
+        self.display.focus_set()
+
+    def click(self, key):
+        if key == '=':
+            self.calculate_and_update_ui()
+        else:
+            self.display.insert(tk.END, key)
+
+    def clear(self):
+        self.display.delete(0, tk.END)
+
+    def calculate(self):
+        expression = self.display.get()
+        if not expression:
+            return "Nenhuma expressão foi digitada."
+        elif is_valid_expression(expression):
+            return calculate(expression)
+        else:
+            return "Err"
+
+    def calculate_and_update_ui(self, event=None):
+        result = self.calculate()
+        self.clear()
+        self.display.insert(tk.END, str(result))
+
+    def key_pressed(self, event):
+        key = event.char
+        if key in self.buttons or key == '\r':
+            if key == '\r' or key == '=':  # Tecla Enter ou =
+                self.calculate_and_update_ui()
+            else:
+                self.display.insert(tk.END, key)
+        return "break"  # Impede o comportamento padrão da tecla
+
+    def backspace(self, event):
+        current_text = self.display.get()
+        if current_text:
+            new_text = current_text[:-1]
+            self.clear()
+            self.display.insert(0, new_text)
+        return "break"  # Impede o comportamento padrão da tecla
+
+def calculator():
+    root = tk.Tk()
+    CalculatorGUI(root)
+    root.mainloop()
+
+if __name__ == "__main__":
+    calculator()
